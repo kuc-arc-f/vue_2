@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="container">
+    <div>
             <h1>Tasks - create</h1>
             <div class="form-group">
                 <label for="TopicTitle">タイトル</label>

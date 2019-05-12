@@ -15,16 +15,20 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import axios from 'axios'
+import {Mixin} from '../../mixin'
+import jQuery from 'jquery'
 
 export default {
+    mixins:[Mixin],
     created() {
-        this.database = firebase.firestore()
+        this.baseUrl = this.sysConst.API_BASE;
     },
     data() {
         return {
             title:'',
-            content:''
+            content:'',
+            baseUrl : '',
         }
     },
     mounted: function() {
@@ -32,39 +36,46 @@ export default {
     },
     methods: {
         getItem: function() {
-            var docRef = this.database.collection("tasks").doc( this.$route.params.id )
-            var self = this
-            docRef.get().then(function(doc) {
-                var task = doc.data()
-                self.title = task.title
-                self.content = task.content
-            }).catch(function(error) {
-                console.log("Error getting document:", error);
-            })                
+            var url = this.baseUrl +'tasks/api_view/'+ this.$route.params.id;
+            var item = []
+            axios.get(url )
+            .then( ( res ) => {
+                item = res.data;
+                console.log(res.data.title )
+                this.title = item.title
+                this.content = item.content
+            });                        
         },
         updateTask: function () {
-            var self = this
-            var docRef = this.database.collection("tasks").doc( this.$route.params.id );
-            docRef.update({
-                title: self.title,
-                content: self.content
-            })
-            .then(function() {
-                console.log("Document successfully updated!");
-            })
-            .catch(function(error) {
-                console.error("Error updating document: ", error);
+            var hostUrl = this.baseUrl +'tasks/api_update/'+ this.$route.params.id;
+            jQuery.ajax({
+                url: hostUrl,
+                type:'POST',
+                dataType: 'json',
+                data : {
+                    'data[Task][id]' : this.$route.params.id, 
+                    'data[Task][title]' : this.title, 
+                    'data[Task][content]' : this.content
+                },
+                timeout:3000,
+            }).done(function(data) {
+                console.log("ajax-ok");
+                console.log(data);
+            }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("ajax-error");
+                console.log( errorThrown );
             })
         },
         deleteTask: function () {
-            var self = this
-            var docRef = this.database.collection("tasks").doc(this.$route.params.id)
-            docRef.delete().then(function() {
-                console.log("Document successfully deleted!")
-                self.$router.push('/tasks')
-            }).catch(function(error) {
-                console.error("Error removing document: ", error)
-            })
+            var url = this.baseUrl +'tasks/api_delete/'+ this.$route.params.id;
+            axios.get(url).then(res => {
+                console.log(res.data );
+                if(res.data.ret == 1){
+                    console.log(res.data.ret );
+                }else{
+                    console.log(res.data );
+                }
+            });            
         }
     }
 }

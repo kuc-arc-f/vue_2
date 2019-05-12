@@ -10,8 +10,6 @@ export const Mixin =  {
             STORAGE_KEY_userData : 'key_user_dat',
             STORAGE_KEY_flash : 'strage_flash_key',
             API_BASE : 'http://localhost/apiphp1/',
-            /* API_BASE : 'http://192.168.10.104/apiphp1/', */
-            AJAX_MAX_TIME : 8000,            
         }
     },
     /* local storage */

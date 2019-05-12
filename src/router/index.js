@@ -8,6 +8,8 @@ import about from '../components/About'
 
 import tasksIndex from '../components/Tasks/Index'
 import tasksNew from '../components/Tasks/new'
+import tasksShow from '../components/Tasks/show'
+import tasksEdit from '../components/Tasks/edit'
 
 Vue.use(Router)
 //
@@ -21,5 +23,7 @@ export default new Router({
     /* tasks */
     { path: '/tasks', component: tasksIndex },    
     { path: '/tasks/new', component: tasksNew },
-]
+    { path: '/tasks/show/:id', component: tasksShow },
+    { path: '/tasks/edit/:id', component: tasksEdit },
+    ]
 })

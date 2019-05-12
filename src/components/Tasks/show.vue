@@ -6,11 +6,14 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-//
+import axios from 'axios'
+import {Mixin} from '../../mixin'
+
 export default {
+    mixins:[Mixin],
     created() {
-        this.database = firebase.firestore()
+        this.baseUrl = this.sysConst.API_BASE;
+        console.log( this.baseUrl )        
     },
     data: function( ) {
         var itemDat = {title : '', content : ''}
@@ -18,6 +21,7 @@ export default {
             item: itemDat,
             editFlg: false,
             updated: false,
+            baseUrl : '',
         }
     },
     mounted: function() {
@@ -25,18 +29,12 @@ export default {
     },
     methods: {
         getItem: function() {
-            var items = []
-            var docRef = this.database.collection("tasks").doc( this.$route.params.id )
-            var self = this
-            docRef.get().then(function(doc) {
-                var task = doc.data()
-                items.push({
-                    title: task.title
-                })
-                self.item = task
-            }).catch(function(error) {
-                console.log("Error getting document:", error);
-            })
+            var url = this.baseUrl +'tasks/api_view/'+ this.$route.params.id;
+            axios.get(url )
+            .then( ( res ) => {
+                this.item = res.data;
+                console.log(res.data )
+            });            
         },
     }
 }
