@@ -28,8 +28,10 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import axios from 'axios'
 import {Mixin} from '../../mixin'
+var baseUrl = 'http://localhost/vuephp2/user';
+
 //
 export default {
   mixins:[Mixin],
@@ -46,26 +48,18 @@ export default {
     }
   },
   methods: {
-    getTasks () {
-        var items = []
-        var self = this
-        this.database = firebase.firestore()
-        var dbRef = this.database.collection('tasks')
-        dbRef = dbRef.where("uid", "==", this.user_id )
-        /* dbRef = dbRef.orderBy("up_date", "desc") */
-        dbRef.get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                /* console.log(doc.id, " => ", doc.data()) */
-                var item = doc.data()
-                items.push({
-                    id : doc.id,
-                    title : item.title,
-                    content : item.content
-                })            
-            })
-            self.tasks = items
+    getTasks() {
+        var url = this.conv_url('/?fn=api_tasks')
+        console.log(url)
+        axios.get(url)
+        .then(res =>  {
+            this.tasks = res.data
+            console.log(res.data.length )
         })
-    }
+    },
+    conv_url(url) {
+        return baseUrl + url
+    }    
   }
 }
 </script>

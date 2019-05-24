@@ -1,20 +1,15 @@
 <template>
-  <div id="app">
-    <navbar />
-    <div class="container">
+    <div id="app">
         <router-view/>
     </div>
-  </div>
 </template>
 
 <script>
-import navbar from './components/Layouts/Navbar'
+//import navbar from './components/Layouts/Navbar'
 
 export default {
   name: 'app',
-  components: {
-    navbar
-  }
+//  components: { navbar, }
 }
 </script>
 <style>

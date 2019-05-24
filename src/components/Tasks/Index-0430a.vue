@@ -1,29 +1,17 @@
 <template>
-    <div class="container">
+    <div>
         <h1>Tasks- Index:</h1>
         <hr />
-        <router-link :to="'/tasks/new/'">[ add ]</router-link><br />
+        <router-link :to="'/tasks/new/'">[ add ]</router-link>
+        <hr />
         <br />
-        <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">id</th>
-            <th scope="col">title</th>
-            <th scope="col">content</th>
-            <th scope="col">action</th>
-        </tr>
-        </thead>
-        <tbody v-for="task in tasks" v-bind:key="task.id">
-        <tr>
-            <td>{{ task.id }}</td>
-            <td><router-link :to="'/tasks/show/' + task.id">{{ task.title }}</router-link>
-            </td>
-            <td>{{ task.content }}</td>
-            <td>&nbsp;<router-link :to="'/tasks/edit/' + task.id">[ edit ]</router-link>
-            </td>
-        </tr>
-        </tbody>
-        </table>
+        <ul v-for="task in tasks" v-bind:key="task.id">
+            <li>{{ task.title }} / id: {{ task.id }}
+                <p>{{ task.content }}</p>
+                <router-link :to="'/tasks/show/' + task.id">{{ task.title }}</router-link>
+                &nbsp;<router-link :to="'/tasks/edit/' + task.id">[ edit ]</router-link>
+            </li>
+        </ul>        
     </div>
 </template>
 

@@ -1,14 +1,16 @@
 <template>
     <div>
         <h1>title : {{ item.title }}</h1>
-        <div v-text="item.content"></div>
+        <div v-text="item.title"></div>
     </div>
 </template>
 
 <script>
 import firebase from 'firebase'
+import {Mixin} from '../../mixin'
 //
 export default {
+    mixins:[Mixin],
     created() {
         this.database = firebase.firestore()
     },
@@ -18,6 +20,7 @@ export default {
             item: itemDat,
             editFlg: false,
             updated: false,
+            test1 : 'AA',
         }
     },
     mounted: function() {
@@ -25,18 +28,15 @@ export default {
     },
     methods: {
         getItem: function() {
-            var items = []
-            var docRef = this.database.collection("tasks").doc( this.$route.params.id )
-            var self = this
-            docRef.get().then(function(doc) {
-                var task = doc.data()
-                items.push({
-                    title: task.title
-                })
-                self.item = task
-            }).catch(function(error) {
-                console.log("Error getting document:", error);
-            })
+            var tasks = this.get_exStorage(this.sysConst.STORAGE_KEY_tasksData)
+            var pid = this.$route.params.id;
+            /* console.log(tasks) */
+            for(var i=0; i < tasks.length; i++){
+                if(tasks[i].id==pid){
+                    this.item = tasks[i]
+                    /* console.log(tasks[i].id ) */
+                }
+            }
         },
     }
 }

@@ -7,7 +7,9 @@
         <table class="table">
         <thead>
         <tr>
+            <!--
             <th scope="col">id</th>
+            -->
             <th scope="col">title</th>
             <th scope="col">content</th>
             <th scope="col">action</th>
@@ -15,7 +17,9 @@
         </thead>
         <tbody v-for="task in tasks" v-bind:key="task.id">
         <tr>
+            <!--
             <td>{{ task.id }}</td>
+            -->
             <td><router-link :to="'/tasks/show/' + task.id">{{ task.title }}</router-link>
             </td>
             <td>{{ task.content }}</td>

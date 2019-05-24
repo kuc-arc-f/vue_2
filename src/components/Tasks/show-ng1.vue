@@ -1,12 +1,13 @@
 <template>
     <div>
         <h1>title : {{ item.title }}</h1>
-        <div v-text="item.content"></div>
+        <div v-text="item.title"></div>
     </div>
 </template>
 
 <script>
 import firebase from 'firebase'
+import Vue from 'vue'
 //
 export default {
     created() {
@@ -18,6 +19,7 @@ export default {
             item: itemDat,
             editFlg: false,
             updated: false,
+            test1 : 'AA',
         }
     },
     mounted: function() {
@@ -25,19 +27,26 @@ export default {
     },
     methods: {
         getItem: function() {
-            var items = []
             var docRef = this.database.collection("tasks").doc( this.$route.params.id )
-            var self = this
-            docRef.get().then(function(doc) {
+            this.setItems (docRef, this.item)
+            window.setTimeout(function() {
+                /* this.item = items[0] */
+                console.log( this.item.title )
+                Vue.$forceUpdate
+            }, 1000);
+        },
+        setItems (docRef, item) {
+            var items = []
+            docRef.get().then(function(doc, item) {
                 var task = doc.data()
                 items.push({
                     title: task.title
                 })
-                self.item = task
+                item = items[0]
             }).catch(function(error) {
                 console.log("Error getting document:", error);
             })
-        },
+        }
     }
 }
 </script>

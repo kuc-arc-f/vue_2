@@ -5,12 +5,13 @@ export const Mixin =  {
   methods:{
     set_sysConst(){
         this.sysConst={
+            SITE_NAME : 'cms2',
             STORAGE_KEY_showId : 'key_show_id',
             STORAGE_KEY_tasksData : 'key_tasks_dat',
             STORAGE_KEY_userData : 'key_user_dat',
             STORAGE_KEY_flash : 'strage_flash_key',
-            API_BASE : 'http://localhost/apiphp1/',
-            /* API_BASE : 'http://192.168.10.104/apiphp1/', */
+            /* API_BASE : 'http://localhost/apiphp3/', */
+            API_BASE : 'http://192.168.10.104/apiphp3/',
             AJAX_MAX_TIME : 8000,            
         }
     },
@@ -22,6 +23,9 @@ export const Mixin =  {
         var dat = JSON.parse(localStorage.getItem(key) || '[]')
         console.log( 'dat.len='+ dat.length )
         return dat
+    },
+    remove_exStorage(key){
+        localStorage.removeItem( key );
     },
     /* user */
     check_userState(key, self){
